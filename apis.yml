@@ -1,0 +1,57 @@
+aid: caisy
+name: Caisy
+description: "GraphQL-native headless CMS with a real-time GraphQL content API, rich text as AST, multi-site support, and component-based content blueprints."
+type: Index
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://caisy.io/
+baseURL: https://cloud.caisy.io/api/e/v4
+created: 2026-06-14
+modified: 2026-06-14
+specificationVersion: '0.19'
+tags:
+  - GraphQL
+  - Headless CMS
+  - Content Management
+  - Content API
+  - Multi-site
+apis:
+  - aid: caisy:api
+    name: Caisy API
+    description: "Real-time GraphQL content API for querying and mutating content stored in Caisy projects. Supports filtering, pagination, sorting, nested document referencing, and rich text as AST. Each project exposes its own GraphQL endpoint."
+    tags:
+      - GraphQL
+      - Content API
+      - Headless CMS
+      - Rich Text
+      - Relay
+    humanURL: https://caisy.io/developer/docs
+    baseURL: https://cloud.caisy.io/api/e/v4
+    properties:
+      - url: https://caisy.io/developer/docs
+        type: Documentation
+      - url: graphql/caisy-graphql.md
+        type: GraphQL
+common:
+  - url: https://caisy.io/
+    type: Website
+  - url: https://caisy.io/developer/docs
+    type: Documentation
+  - url: https://www.linkedin.com/company/cyclus-digital
+    type: LinkedIn
+  - url: https://github.com/caisy-io
+    type: GitHubOrganization
+  - url: https://caisy.io/pricing
+    type: Pricing
+  - url: https://caisy.io/changelog
+    type: ChangeLog
+  - url: https://caisy.io/blog
+    type: Blog
+  - url: plans/caisy-plans.md
+    type: Plans
+  - url: rate-limits/caisy-rate-limits.md
+    type: RateLimits
+  - url: finops/caisy-finops.md
+    type: FinOps
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
