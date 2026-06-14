@@ -1,0 +1,1075 @@
+"""
+Caisy GraphQL Schema
+Endpoint: https://cloud.caisy.io/api/e/v4/{CAISY_PROJECT_ID}/graphql
+Source: caisy-io/starter-template-next-simple-blog (graphql-code-generator introspection output)
+Documentation: https://caisy.io/developer/docs/graphql-api
+
+Caisy automatically generates queries for each blueprint defined in the project.
+Each blueprint produces a single-record query (by ID) and a paginated collection
+query (`allX`) following the Relay cursor connection spec.
+"""
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Scalars
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""RFC 3339 quoted date-time string."""
+scalar DateTime
+
+"""Any JSON value (used for rich-text AST fields)."""
+scalar JSON
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Enums
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""Sort direction for collection queries."""
+enum Order {
+  ASC
+  DESC
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# System / shared types
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""Document metadata injected automatically by Caisy on every content node."""
+type CaisyDocument_Meta {
+  createdAt: DateTime
+  firstPublishedAt: DateTime
+  id: ID
+  locale: String
+  locales: [String]
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+"""Relay-spec pagination information returned on every connection type."""
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: String
+}
+
+"""
+Placeholder returned when a referenced document could not be found
+(e.g. unpublished, deleted, or access-restricted).
+"""
+type Caisy_Field_Document_NotFound {
+  id: ID
+  message: String
+}
+
+"""Taxonomy tag attached to any document."""
+type Caisy_Field_Tag {
+  color: String
+  id: String
+  name: String
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Filter input scalars
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""String / text field filter operators."""
+input CaisyField_String_Where {
+  contains: String
+  eq: String
+  neq: String
+}
+
+"""Color field filter operators."""
+input CaisyField_Color_Where {
+  contains: String
+  eq: String
+  neq: String
+}
+
+"""Integer numeric field filter operators."""
+input CaisyField_Number_WhereInt {
+  eq: Int
+  gt: Int
+  gte: Int
+  lt: Int
+  lte: Int
+  neq: Int
+}
+
+"""Rich-text field filter operators (operates on the serialised text content)."""
+input CaisyField_Richtext_Where {
+  contains: String
+  eq: String
+  neq: String
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Asset (media / file)
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""A media asset (image, video, or file) stored in Caisy."""
+type Asset {
+  _meta: CaisyDocument_Meta
+  author: String
+  blurHash: String
+  copyright: String
+  description: String
+  dominantColor: String
+  height: Int
+  id: ID
+  keywords: String
+  originType: String
+  originalName: String
+  src: String
+  title: String
+  width: Int
+}
+
+type Asset_Connection {
+  edges: [Asset_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type Asset_ConnectionEdge {
+  cursor: String
+  node: Asset
+}
+
+input Asset_Nested_Where {
+  AND: [Asset_Nested_Where]
+  OR: [Asset_Nested_Where]
+  author: CaisyField_String_Where
+  blurHash: CaisyField_String_Where
+  copyright: CaisyField_String_Where
+  description: CaisyField_String_Where
+  dominantColor: CaisyField_Color_Where
+  height: CaisyField_Number_WhereInt
+  keywords: CaisyField_String_Where
+  originType: CaisyField_String_Where
+  originalName: CaisyField_String_Where
+  title: CaisyField_String_Where
+  width: CaisyField_Number_WhereInt
+}
+
+input Asset_Sort {
+  author: Order
+  blurHash: Order
+  copyright: Order
+  createdAt: Order
+  description: Order
+  dominantColor: Order
+  height: Order
+  id: Order
+  keywords: Order
+  originType: Order
+  originalName: Order
+  publishedAt: Order
+  title: Order
+  updatedAt: Order
+  width: Order
+}
+
+input Asset_Where {
+  AND: [Asset_Where]
+  OR: [Asset_Where]
+  author: CaisyField_String_Where
+  blurHash: CaisyField_String_Where
+  copyright: CaisyField_String_Where
+  description: CaisyField_String_Where
+  dominantColor: CaisyField_Color_Where
+  height: CaisyField_Number_WhereInt
+  keywords: CaisyField_String_Where
+  originType: CaisyField_String_Where
+  originalName: CaisyField_String_Where
+  title: CaisyField_String_Where
+  width: CaisyField_Number_WhereInt
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Author
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""A content author with an optional avatar asset."""
+type Author {
+  _meta: CaisyDocument_Meta
+  avatar(after: String, first: Int = 100, locale: String): Asset
+  id: ID
+  name: String
+  role: String
+}
+
+type Author_Connection {
+  edges: [Author_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type Author_ConnectionEdge {
+  cursor: String
+  node: Author
+}
+
+input Author_Avatar_Where {
+  findOne: Author_Avatar_WhereConnection
+}
+
+input Author_Avatar_WhereConnection {
+  Asset: Asset_Nested_Where
+}
+
+input Author_Nested_Where {
+  AND: [Author_Nested_Where]
+  OR: [Author_Nested_Where]
+  name: CaisyField_String_Where
+  role: CaisyField_String_Where
+}
+
+input Author_Sort {
+  avatar: Order
+  createdAt: Order
+  id: Order
+  name: Order
+  publishedAt: Order
+  role: Order
+  updatedAt: Order
+}
+
+input Author_Where {
+  AND: [Author_Where]
+  OR: [Author_Where]
+  avatar: Author_Avatar_Where
+  name: CaisyField_String_Where
+  role: CaisyField_String_Where
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Category
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""Taxonomy category for blog articles."""
+type Category {
+  _meta: CaisyDocument_Meta
+  id: ID
+  name: String
+}
+
+type Category_Connection {
+  edges: [Category_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type Category_ConnectionEdge {
+  cursor: String
+  node: Category
+}
+
+input Category_Nested_Where {
+  AND: [Category_Nested_Where]
+  OR: [Category_Nested_Where]
+  name: CaisyField_String_Where
+}
+
+input Category_Sort {
+  createdAt: Order
+  id: Order
+  name: Order
+  publishedAt: Order
+  updatedAt: Order
+}
+
+input Category_Where {
+  AND: [Category_Where]
+  OR: [Category_Where]
+  name: CaisyField_String_Where
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# SeoInformation
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""SEO metadata block embeddable in pages and articles."""
+type SeoInformation {
+  _meta: CaisyDocument_Meta
+  description: String
+  id: ID
+  keywords: String
+  ogImage(after: String, first: Int = 100, locale: String): Asset
+  title: String
+  titleInternal: String
+}
+
+type SeoInformation_Connection {
+  edges: [SeoInformation_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type SeoInformation_ConnectionEdge {
+  cursor: String
+  node: SeoInformation
+}
+
+input SeoInformation_Nested_Where {
+  AND: [SeoInformation_Nested_Where]
+  OR: [SeoInformation_Nested_Where]
+  description: CaisyField_String_Where
+  keywords: CaisyField_String_Where
+  title: CaisyField_String_Where
+  titleInternal: CaisyField_String_Where
+}
+
+input SeoInformation_OgImage_Where {
+  findOne: SeoInformation_OgImage_WhereConnection
+}
+
+input SeoInformation_OgImage_WhereConnection {
+  Asset: Asset_Nested_Where
+}
+
+input SeoInformation_Sort {
+  createdAt: Order
+  description: Order
+  id: Order
+  keywords: Order
+  ogImage: Order
+  publishedAt: Order
+  title: Order
+  titleInternal: Order
+  updatedAt: Order
+}
+
+input SeoInformation_Where {
+  AND: [SeoInformation_Where]
+  OR: [SeoInformation_Where]
+  description: CaisyField_String_Where
+  keywords: CaisyField_String_Where
+  ogImage: SeoInformation_OgImage_Where
+  title: CaisyField_String_Where
+  titleInternal: CaisyField_String_Where
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# BlogArticle
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""A blog article document with rich-text body, author, category, and SEO."""
+type BlogArticle {
+  _meta: CaisyDocument_Meta
+  author(after: String, first: Int = 100, locale: String): Author
+  category(after: String, first: Int = 100, locale: String): Category
+  id: ID
+  seo(after: String, first: Int = 100, locale: String): SeoInformation
+  slug: String
+  teaserDesciption: String
+  teaserHeadline: String
+  teaserImage(after: String, first: Int = 100, locale: String): Asset
+  text(locale: String): BlogArticle_text
+}
+
+"""Rich-text field for a BlogArticle body, returned as JSON AST."""
+type BlogArticle_text {
+  connections(after: String, first: Int = 100, locale: String): [BlogArticle_text_Connections]
+  json: JSON
+}
+
+"""Inline assets embedded inside a BlogArticle rich-text field."""
+union BlogArticle_text_Connections = Asset
+
+type BlogArticle_Connection {
+  edges: [BlogArticle_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type BlogArticle_ConnectionEdge {
+  cursor: String
+  node: BlogArticle
+}
+
+input BlogArticle_Author_Where {
+  findOne: BlogArticle_Author_WhereConnection
+}
+
+input BlogArticle_Author_WhereConnection {
+  Author: Author_Nested_Where
+}
+
+input BlogArticle_Category_Where {
+  findOne: BlogArticle_Category_WhereConnection
+}
+
+input BlogArticle_Category_WhereConnection {
+  Category: Category_Nested_Where
+}
+
+input BlogArticle_Nested_Where {
+  AND: [BlogArticle_Nested_Where]
+  OR: [BlogArticle_Nested_Where]
+  slug: CaisyField_String_Where
+  teaserDesciption: CaisyField_String_Where
+  teaserHeadline: CaisyField_String_Where
+  text: CaisyField_Richtext_Where
+}
+
+input BlogArticle_Seo_Where {
+  findOne: BlogArticle_Seo_WhereConnection
+}
+
+input BlogArticle_Seo_WhereConnection {
+  SeoInformation: SeoInformation_Nested_Where
+}
+
+input BlogArticle_TeaserImage_Where {
+  findOne: BlogArticle_TeaserImage_WhereConnection
+}
+
+input BlogArticle_TeaserImage_WhereConnection {
+  Asset: Asset_Nested_Where
+}
+
+input BlogArticle_Sort {
+  author: Order
+  category: Order
+  createdAt: Order
+  id: Order
+  publishedAt: Order
+  seo: Order
+  slug: Order
+  teaserDesciption: Order
+  teaserHeadline: Order
+  teaserImage: Order
+  updatedAt: Order
+}
+
+input BlogArticle_Where {
+  AND: [BlogArticle_Where]
+  OR: [BlogArticle_Where]
+  author: BlogArticle_Author_Where
+  category: BlogArticle_Category_Where
+  seo: BlogArticle_Seo_Where
+  slug: CaisyField_String_Where
+  teaserDesciption: CaisyField_String_Where
+  teaserHeadline: CaisyField_String_Where
+  teaserImage: BlogArticle_TeaserImage_Where
+  text: CaisyField_Richtext_Where
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# BlogArticleGrid
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""A grid component that references multiple BlogArticle documents."""
+type BlogArticleGrid {
+  _meta: CaisyDocument_Meta
+  articles(after: String, first: Int = 100, locale: String): [BlogArticleGrid_articles]
+  headline: String
+  id: ID
+  subheadline: String
+  titleInternal: String
+}
+
+union BlogArticleGrid_articles = BlogArticle
+
+type BlogArticleGrid_Connection {
+  edges: [BlogArticleGrid_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type BlogArticleGrid_ConnectionEdge {
+  cursor: String
+  node: BlogArticleGrid
+}
+
+input BlogArticleGrid_Articles_Where {
+  findOne: BlogArticleGrid_Articles_WhereConnection
+}
+
+input BlogArticleGrid_Articles_WhereConnection {
+  BlogArticle: BlogArticle_Nested_Where
+}
+
+input BlogArticleGrid_Nested_Where {
+  AND: [BlogArticleGrid_Nested_Where]
+  OR: [BlogArticleGrid_Nested_Where]
+  headline: CaisyField_String_Where
+  subheadline: CaisyField_String_Where
+  titleInternal: CaisyField_String_Where
+}
+
+input BlogArticleGrid_Sort {
+  articles: Order
+  createdAt: Order
+  headline: Order
+  id: Order
+  publishedAt: Order
+  subheadline: Order
+  titleInternal: Order
+  updatedAt: Order
+}
+
+input BlogArticleGrid_Where {
+  AND: [BlogArticleGrid_Where]
+  OR: [BlogArticleGrid_Where]
+  articles: BlogArticleGrid_Articles_Where
+  headline: CaisyField_String_Where
+  subheadline: CaisyField_String_Where
+  titleInternal: CaisyField_String_Where
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Page
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""A content page composed of reusable component blocks."""
+type Page {
+  _meta: CaisyDocument_Meta
+  components(after: String, first: Int = 100, locale: String): [Page_components]
+  id: ID
+  seo(after: String, first: Int = 100, locale: String): SeoInformation
+  slug: String
+  titleInternal: String
+}
+
+"""Union of all component types embeddable on a Page."""
+union Page_components = BlogArticleGrid | ContactForm | Fulltext | FullwidthBlogTeaser | Headline | NewsletterSignup
+
+type Page_Connection {
+  edges: [Page_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type Page_ConnectionEdge {
+  cursor: String
+  node: Page
+}
+
+input Page_Components_Where {
+  findOne: Page_Components_WhereConnection
+}
+
+input Page_Components_WhereConnection {
+  BlogArticleGrid: BlogArticleGrid_Nested_Where
+  ContactForm: ContactForm_Nested_Where
+  Fulltext: Fulltext_Nested_Where
+  FullwidthBlogTeaser: FullwidthBlogTeaser_Nested_Where
+  Headline: Headline_Nested_Where
+  NewsletterSignup: NewsletterSignup_Nested_Where
+}
+
+input Page_Nested_Where {
+  AND: [Page_Nested_Where]
+  OR: [Page_Nested_Where]
+  slug: CaisyField_String_Where
+  titleInternal: CaisyField_String_Where
+}
+
+input Page_Seo_Where {
+  findOne: Page_Seo_WhereConnection
+}
+
+input Page_Seo_WhereConnection {
+  SeoInformation: SeoInformation_Nested_Where
+}
+
+input Page_Sort {
+  components: Order
+  createdAt: Order
+  id: Order
+  publishedAt: Order
+  seo: Order
+  slug: Order
+  titleInternal: Order
+  updatedAt: Order
+}
+
+input Page_Where {
+  AND: [Page_Where]
+  OR: [Page_Where]
+  components: Page_Components_Where
+  seo: Page_Seo_Where
+  slug: CaisyField_String_Where
+  titleInternal: CaisyField_String_Where
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Navigation
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""Top-level site navigation structure (unique blueprint — queried without ID)."""
+type Navigation {
+  _meta: CaisyDocument_Meta
+  entries(after: String, first: Int = 100, locale: String): [Navigation_entries]
+  homePage(after: String, first: Int = 100, locale: String): Page
+  id: ID
+  notFoundPage(after: String, first: Int = 100, locale: String): Page
+  titleInternal: String
+}
+
+union Navigation_entries = NavigationEntry
+
+"""A single navigation link entry pointing to a Page."""
+type NavigationEntry {
+  _meta: CaisyDocument_Meta
+  connection(after: String, first: Int = 100, locale: String): Page
+  id: ID
+  title: String
+}
+
+type NavigationEntry_Connection {
+  edges: [NavigationEntry_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type NavigationEntry_ConnectionEdge {
+  cursor: String
+  node: NavigationEntry
+}
+
+input NavigationEntry_Connection_Where {
+  findOne: NavigationEntry_Connection_WhereConnection
+}
+
+input NavigationEntry_Connection_WhereConnection {
+  Page: Page_Nested_Where
+}
+
+input NavigationEntry_Sort {
+  connection: Order
+  createdAt: Order
+  id: Order
+  publishedAt: Order
+  title: Order
+  updatedAt: Order
+}
+
+input NavigationEntry_Where {
+  AND: [NavigationEntry_Where]
+  OR: [NavigationEntry_Where]
+  connection: NavigationEntry_Connection_Where
+  title: CaisyField_String_Where
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Footer (unique blueprint)
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""Site-wide footer (unique blueprint — queried without ID)."""
+type Footer {
+  _meta: CaisyDocument_Meta
+  content(locale: String): Footer_content
+  id: ID
+  titleInternal: String
+}
+
+"""Rich-text field for the Footer body."""
+type Footer_content {
+  connections(after: String, first: Int = 100, locale: String): [Footer_content_Connections]
+  json: JSON
+}
+
+union Footer_content_Connections = Caisy_Field_Document_NotFound
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Component blueprints
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""Generic contact form component."""
+type ContactForm {
+  _meta: CaisyDocument_Meta
+  headline: String
+  id: ID
+  titleInternal: String
+}
+
+type ContactForm_Connection {
+  edges: [ContactForm_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type ContactForm_ConnectionEdge {
+  cursor: String
+  node: ContactForm
+}
+
+input ContactForm_Nested_Where {
+  AND: [ContactForm_Nested_Where]
+  OR: [ContactForm_Nested_Where]
+  headline: CaisyField_String_Where
+  titleInternal: CaisyField_String_Where
+}
+
+input ContactForm_Sort {
+  createdAt: Order
+  headline: Order
+  id: Order
+  publishedAt: Order
+  titleInternal: Order
+  updatedAt: Order
+}
+
+input ContactForm_Where {
+  AND: [ContactForm_Where]
+  OR: [ContactForm_Where]
+  headline: CaisyField_String_Where
+  titleInternal: CaisyField_String_Where
+}
+
+"""Rich-text full-width component."""
+type Fulltext {
+  _meta: CaisyDocument_Meta
+  id: ID
+  text(locale: String): Fulltext_text
+  titleInternal: String
+}
+
+type Fulltext_text {
+  connections(after: String, first: Int = 100, locale: String): [Fulltext_text_Connections]
+  json: JSON
+}
+
+union Fulltext_text_Connections = Asset
+
+type Fulltext_Connection {
+  edges: [Fulltext_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type Fulltext_ConnectionEdge {
+  cursor: String
+  node: Fulltext
+}
+
+input Fulltext_Nested_Where {
+  AND: [Fulltext_Nested_Where]
+  OR: [Fulltext_Nested_Where]
+  text: CaisyField_Richtext_Where
+  titleInternal: CaisyField_String_Where
+}
+
+input Fulltext_Sort {
+  createdAt: Order
+  id: Order
+  publishedAt: Order
+  titleInternal: Order
+  updatedAt: Order
+}
+
+input Fulltext_Where {
+  AND: [Fulltext_Where]
+  OR: [Fulltext_Where]
+  text: CaisyField_Richtext_Where
+  titleInternal: CaisyField_String_Where
+}
+
+"""Full-width blog teaser component featuring a single article."""
+type FullwidthBlogTeaser {
+  _meta: CaisyDocument_Meta
+  featuredArticle(after: String, first: Int = 100, locale: String): BlogArticle
+  id: ID
+  titleInternal: String
+}
+
+type FullwidthBlogTeaser_Connection {
+  edges: [FullwidthBlogTeaser_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type FullwidthBlogTeaser_ConnectionEdge {
+  cursor: String
+  node: FullwidthBlogTeaser
+}
+
+input FullwidthBlogTeaser_FeaturedArticle_Where {
+  findOne: FullwidthBlogTeaser_FeaturedArticle_WhereConnection
+}
+
+input FullwidthBlogTeaser_FeaturedArticle_WhereConnection {
+  BlogArticle: BlogArticle_Nested_Where
+}
+
+input FullwidthBlogTeaser_Nested_Where {
+  AND: [FullwidthBlogTeaser_Nested_Where]
+  OR: [FullwidthBlogTeaser_Nested_Where]
+  titleInternal: CaisyField_String_Where
+}
+
+input FullwidthBlogTeaser_Sort {
+  createdAt: Order
+  featuredArticle: Order
+  id: Order
+  publishedAt: Order
+  titleInternal: Order
+  updatedAt: Order
+}
+
+input FullwidthBlogTeaser_Where {
+  AND: [FullwidthBlogTeaser_Where]
+  OR: [FullwidthBlogTeaser_Where]
+  featuredArticle: FullwidthBlogTeaser_FeaturedArticle_Where
+  titleInternal: CaisyField_String_Where
+}
+
+"""Headline + subheadline component block."""
+type Headline {
+  _meta: CaisyDocument_Meta
+  headline: String
+  id: ID
+  subheadline: String
+  titleInternal: String
+}
+
+type Headline_Connection {
+  edges: [Headline_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type Headline_ConnectionEdge {
+  cursor: String
+  node: Headline
+}
+
+input Headline_Nested_Where {
+  AND: [Headline_Nested_Where]
+  OR: [Headline_Nested_Where]
+  headline: CaisyField_String_Where
+  subheadline: CaisyField_String_Where
+  titleInternal: CaisyField_String_Where
+}
+
+input Headline_Sort {
+  createdAt: Order
+  headline: Order
+  id: Order
+  publishedAt: Order
+  subheadline: Order
+  titleInternal: Order
+  updatedAt: Order
+}
+
+input Headline_Where {
+  AND: [Headline_Where]
+  OR: [Headline_Where]
+  headline: CaisyField_String_Where
+  subheadline: CaisyField_String_Where
+  titleInternal: CaisyField_String_Where
+}
+
+"""Newsletter sign-up form component."""
+type NewsletterSignup {
+  _meta: CaisyDocument_Meta
+  headline: String
+  id: ID
+  subheadline: String
+  titleInternal: String
+}
+
+type NewsletterSignup_Connection {
+  edges: [NewsletterSignup_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type NewsletterSignup_ConnectionEdge {
+  cursor: String
+  node: NewsletterSignup
+}
+
+input NewsletterSignup_Nested_Where {
+  AND: [NewsletterSignup_Nested_Where]
+  OR: [NewsletterSignup_Nested_Where]
+  headline: CaisyField_String_Where
+  subheadline: CaisyField_String_Where
+  titleInternal: CaisyField_String_Where
+}
+
+input NewsletterSignup_Sort {
+  createdAt: Order
+  headline: Order
+  id: Order
+  publishedAt: Order
+  subheadline: Order
+  titleInternal: Order
+  updatedAt: Order
+}
+
+input NewsletterSignup_Where {
+  AND: [NewsletterSignup_Where]
+  OR: [NewsletterSignup_Where]
+  headline: CaisyField_String_Where
+  subheadline: CaisyField_String_Where
+  titleInternal: CaisyField_String_Where
+}
+
+"""Simple teaser grid component."""
+type TeaserGrid {
+  _meta: CaisyDocument_Meta
+  headline: String
+  id: ID
+}
+
+type TeaserGrid_Connection {
+  edges: [TeaserGrid_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type TeaserGrid_ConnectionEdge {
+  cursor: String
+  node: TeaserGrid
+}
+
+input TeaserGrid_Sort {
+  createdAt: Order
+  headline: Order
+  id: Order
+  publishedAt: Order
+  updatedAt: Order
+}
+
+input TeaserGrid_Where {
+  AND: [TeaserGrid_Where]
+  OR: [TeaserGrid_Where]
+  headline: CaisyField_String_Where
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Tags connection
+# ──────────────────────────────────────────────────────────────────────────────
+
+type Tag_Connection {
+  edges: [Tag_ConnectionEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+type Tag_ConnectionEdge {
+  cursor: String
+  node: Caisy_Field_Tag
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Root Query type
+# ──────────────────────────────────────────────────────────────────────────────
+
+"""
+Root query type for the Caisy content API.
+
+Single-document queries accept an `id: ID!` argument (except unique blueprints
+such as Navigation and Footer which are project-level singletons).
+
+Collection queries (`allX`) support cursor-based Relay pagination (`first`,
+`last`, `after`, `before`), filtering via `where`, and multi-field sorting via
+`sort`.
+"""
+type Query {
+  # ── Single-document queries ──────────────────────────────────────────────
+
+  """Fetch a single Asset by ID."""
+  Asset(id: ID!, locale: String): Asset
+
+  """Fetch a single Author by ID."""
+  Author(id: ID!, locale: String): Author
+
+  """Fetch a single BlogArticle by ID."""
+  BlogArticle(id: ID!, locale: String): BlogArticle
+
+  """Fetch a single BlogArticleGrid by ID."""
+  BlogArticleGrid(id: ID!, locale: String): BlogArticleGrid
+
+  """Fetch a single Category by ID."""
+  Category(id: ID!, locale: String): Category
+
+  """Fetch a single ContactForm by ID."""
+  ContactForm(id: ID!, locale: String): ContactForm
+
+  """Fetch a single Fulltext component by ID."""
+  Fulltext(id: ID!, locale: String): Fulltext
+
+  """Fetch a single FullwidthBlogTeaser by ID."""
+  FullwidthBlogTeaser(id: ID!, locale: String): FullwidthBlogTeaser
+
+  """Fetch a single Headline component by ID."""
+  Headline(id: ID!, locale: String): Headline
+
+  """Fetch a single NavigationEntry by ID."""
+  NavigationEntry(id: ID!, locale: String): NavigationEntry
+
+  """Fetch a single NewsletterSignup by ID."""
+  NewsletterSignup(id: ID!, locale: String): NewsletterSignup
+
+  """Fetch a single Page by ID."""
+  Page(id: ID!, locale: String): Page
+
+  """Fetch a single SeoInformation block by ID."""
+  SeoInformation(id: ID!, locale: String): SeoInformation
+
+  """Fetch a single TeaserGrid by ID."""
+  TeaserGrid(id: ID!, locale: String): TeaserGrid
+
+  """Fetch a single tag by ID."""
+  Tag(id: ID!): Caisy_Field_Tag
+
+  # ── Unique (singleton) blueprint queries — no ID required ──────────────
+
+  """Fetch the project-level Footer singleton."""
+  Footer(locale: String): Footer
+
+  """Fetch the project-level Navigation singleton."""
+  Navigation(locale: String): Navigation
+
+  # ── Collection / paginated queries ──────────────────────────────────────
+
+  """List and filter all Asset documents."""
+  allAsset(after: String, before: String, first: Int, last: Int, locale: String, sort: [Asset_Sort], where: [Asset_Where]): Asset_Connection
+
+  """List and filter all Author documents."""
+  allAuthor(after: String, before: String, first: Int, last: Int, locale: String, sort: [Author_Sort], where: [Author_Where]): Author_Connection
+
+  """List and filter all BlogArticle documents."""
+  allBlogArticle(after: String, before: String, first: Int, last: Int, locale: String, sort: [BlogArticle_Sort], where: [BlogArticle_Where]): BlogArticle_Connection
+
+  """List and filter all BlogArticleGrid documents."""
+  allBlogArticleGrid(after: String, before: String, first: Int, last: Int, locale: String, sort: [BlogArticleGrid_Sort], where: [BlogArticleGrid_Where]): BlogArticleGrid_Connection
+
+  """List and filter all Category documents."""
+  allCategory(after: String, before: String, first: Int, last: Int, locale: String, sort: [Category_Sort], where: [Category_Where]): Category_Connection
+
+  """List and filter all ContactForm documents."""
+  allContactForm(after: String, before: String, first: Int, last: Int, locale: String, sort: [ContactForm_Sort], where: [ContactForm_Where]): ContactForm_Connection
+
+  """List and filter all Fulltext documents."""
+  allFulltext(after: String, before: String, first: Int, last: Int, locale: String, sort: [Fulltext_Sort], where: [Fulltext_Where]): Fulltext_Connection
+
+  """List and filter all FullwidthBlogTeaser documents."""
+  allFullwidthBlogTeaser(after: String, before: String, first: Int, last: Int, locale: String, sort: [FullwidthBlogTeaser_Sort], where: [FullwidthBlogTeaser_Where]): FullwidthBlogTeaser_Connection
+
+  """List and filter all Headline documents."""
+  allHeadline(after: String, before: String, first: Int, last: Int, locale: String, sort: [Headline_Sort], where: [Headline_Where]): Headline_Connection
+
+  """List and filter all NavigationEntry documents."""
+  allNavigationEntry(after: String, before: String, first: Int, last: Int, locale: String, sort: [NavigationEntry_Sort], where: [NavigationEntry_Where]): NavigationEntry_Connection
+
+  """List and filter all NewsletterSignup documents."""
+  allNewsletterSignup(after: String, before: String, first: Int, last: Int, locale: String, sort: [NewsletterSignup_Sort], where: [NewsletterSignup_Where]): NewsletterSignup_Connection
+
+  """List and filter all Page documents."""
+  allPage(after: String, before: String, first: Int, last: Int, locale: String, sort: [Page_Sort], where: [Page_Where]): Page_Connection
+
+  """List and filter all SeoInformation documents."""
+  allSeoInformation(after: String, before: String, first: Int, last: Int, locale: String, sort: [SeoInformation_Sort], where: [SeoInformation_Where]): SeoInformation_Connection
+
+  """List and filter all TeaserGrid documents."""
+  allTeaserGrid(after: String, before: String, first: Int, last: Int, locale: String, sort: [TeaserGrid_Sort], where: [TeaserGrid_Where]): TeaserGrid_Connection
+
+  """List all taxonomy tags."""
+  allTags(after: String, before: String, first: Int, last: Int): Tag_Connection
+}
