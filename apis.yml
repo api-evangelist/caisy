@@ -2,7 +2,7 @@ aid: caisy
 name: Caisy
 description: "GraphQL-native headless CMS with a real-time GraphQL content API, rich text as AST, multi-site support, and component-based content blueprints."
 type: Index
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://caisy.io/
 baseURL: https://cloud.caisy.io/api/e/v4
 created: 2026-06-14
