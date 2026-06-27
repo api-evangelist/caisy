@@ -1,0 +1,14 @@
+{
+  "repo": "caisy",
+  "feeds": [
+    {
+      "source": "https://caisy.io/blog",
+      "feed_url": "",
+      "saved": 0,
+      "method": "agent-scrape"
+    }
+  ],
+  "fetched": "2026-06-27T12:29:51Z",
+  "post_count": 25,
+  "agent_pulled": "2026-06-27"
+}
