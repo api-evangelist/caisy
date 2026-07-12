@@ -32,6 +32,8 @@ apis:
       - url: graphql/caisy-graphql.md
         type: GraphQL
 common:
+  - type: DomainSecurity
+    url: security/caisy-domain-security.yml
   - url: https://caisy.io/
     type: Website
   - url: https://caisy.io/developer/docs
