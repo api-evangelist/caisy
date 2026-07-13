@@ -3,12 +3,13 @@
   "feeds": [
     {
       "source": "https://caisy.io/blog",
-      "feed_url": "",
+      "feed_url": "https://caisy.io/blog",
+      "title": "",
       "saved": 0,
-      "method": "agent-scrape"
+      "method": "none"
     }
   ],
-  "fetched": "2026-06-27T12:29:51Z",
+  "fetched": "2026-07-11T11:50:51Z",
   "post_count": 25,
-  "agent_pulled": "2026-06-27"
+  "agent_pulled": "2026-07-04"
 }
