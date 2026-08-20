@@ -23,6 +23,12 @@ tags:
   - GraphQL
   - Headless CMS
   - Content Management
+  - content-api
+  - Multi-Site
+tags_raw:
+  - GraphQL
+  - Headless CMS
+  - Content Management
   - Content API
   - Multi-site
 apis:
@@ -30,6 +36,12 @@ apis:
     name: Caisy API
     description: "Real-time GraphQL content API for querying and mutating content stored in Caisy projects. Supports filtering, pagination, sorting, nested document referencing, and rich text as AST. Each project exposes its own GraphQL endpoint."
     tags:
+      - GraphQL
+      - content-api
+      - Headless CMS
+      - Rich Text
+      - Relay
+    tags_raw:
       - GraphQL
       - Content API
       - Headless CMS
