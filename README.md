@@ -66,46 +66,92 @@
 
 GraphQL-native headless CMS with a real-time GraphQL content API, rich text as AST, multi-site support, and component-based content blueprints.
 
-- **Website**: https://caisy.io/
-- **Documentation**: https://caisy.io/developer/docs
-- **Pricing**: https://caisy.io/pricing
-- **GitHub**: https://github.com/caisy-io
-- **LinkedIn**: https://www.linkedin.com/company/cyclus-digital
-- **Changelog**: https://caisy.io/changelog
+**Areas:** GraphQL · Headless CMS · Content Management · content-api · Multi-Site
 
-## About
+## Caisy on APIs.io
 
-Caisy is an API-first headless CMS built around a fully fledged GraphQL API following the Relay specification. It is designed for developers, agencies, and enterprise teams who need to deliver content across multiple platforms and sites from a single source of truth.
+Everything profiled for Caisy is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/caisy/](https://apis.io/providers/caisy/)** — or go straight to one of the APIs or properties below.
 
-Key capabilities include:
+### APIs (1)
 
-- **GraphQL content API**: Every project exposes a dedicated GraphQL endpoint at `https://cloud.caisy.io/api/e/v4/{PROJECT_ID}/graphql`.
-- **Rich text as AST**: Rich text fields return a typed Abstract Syntax Tree for framework-agnostic rendering.
-- **Component-based blueprints**: Define content models (blueprints) with a schema builder; connect models to create typed relationships.
-- **Multi-site support**: Manage content for multiple sites and locales from a single organization.
-- **Image optimization**: Built-in CDN-backed image transformation without additional tooling.
-- **TypeScript SDKs**: First-class TypeScript support with generated GraphQL clients via `graphql-code-generator`.
+- [Caisy API](https://apis.io/apis/caisy/api/) — Real-time GraphQL content API for querying and mutating content stored in Caisy projects. Supports filtering, pagination, sorting, nested document…
 
-## Plans
+### Published properties
 
-| Plan       | Price             | API Calls/month | Rate Limit |
-|------------|-------------------|-----------------|------------|
-| Free       | $0                | 1M              | 5 RPS      |
-| Growth     | $49/month         | 10M             | 35 RPS     |
-| Enterprise | From $1,499/month | Custom          | 50+ RPS    |
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-See [plans/caisy-plans.md](plans/caisy-plans.md) for full feature comparison and overage pricing.
+#### GraphQL (1)
 
-## Repository Contents
+GraphQL schemas.
 
-```
-apis.yml                        # APIs.json / apis.io catalog entry
-plans/caisy-plans.md            # Plan tiers, features, and overage pricing
-rate-limits/caisy-rate-limits.md # API rate limits and monthly call quotas
-finops/caisy-finops.md          # Cost drivers and optimization strategies
-graphql/caisy-graphql.md        # GraphQL API reference and examples
-```
+- [Caisy GraphQL API](https://apis.io/graphqls/caisy/caisy-graphql/)
 
-## Maintainer
+#### Security (1)
 
-Kin Lane — kin@apievangelist.com
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Caisy Domain Security](https://apis.io/security/caisy/caisy-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://caisy.io/)
+- [Documentation](https://caisy.io/developer/docs)
+- [Pricing](https://caisy.io/pricing)
+- [Changelog](https://caisy.io/changelog)
+- [Blog](https://caisy.io/blog)
+- [GitHub](https://github.com/caisy-io)
+
+## API Evangelist rating
+
+**Kin Score 21.0** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 64.3 |
+| Contract quality | 35.1 |
+| Contract governance | 0.0 |
+| Operational transparency | 21.1 |
+| Developer ergonomics | 11.9 |
+| Access clarity | 10.5 |
+
+**Agent readiness 15.5** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 5.9** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/caisy/](https://apis.io/providers/caisy/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Caisy: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/caisy/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
